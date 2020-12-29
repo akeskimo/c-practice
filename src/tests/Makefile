@@ -3,10 +3,11 @@ CFLAGS=-Wall -ferror-limit=3
 LFLAGS=-lCUnit
 OBJDIR=../../obj
 SRCDIR=.
+BUILDDIR=../../bin
 SOURCES=$(wildcard $(SRCDIR)/*.c)
 _OBJECTS=square.o $(patsubst %.c,%.o,$(notdir $(SOURCES)))
 OBJECTS=$(addprefix $(OBJDIR)/,$(_OBJECTS))
-EXECUTABLE=test_square
+EXECUTABLE=$(BUILDDIR)/test_square
 
 all: $(EXECUTABLE)
 
