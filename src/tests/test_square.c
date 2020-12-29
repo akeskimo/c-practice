@@ -14,7 +14,7 @@ void test_parse_flag(void)
       int err;
    };
 
-   struct data dd[11] =
+   struct data dd[] =
        {
            {"0", 0, PARSE_OK},
            {"1", 1, PARSE_OK},
@@ -54,7 +54,7 @@ int main()
    }
 
    /* add the tests to the suite */
-   if ((NULL == CU_add_test(pSuite, "verify parse_flag", test_parse_flag)))
+   if ((NULL == CU_add_test(pSuite, "test parse_flag()", test_parse_flag)))
    {
       CU_cleanup_registry();
       return CU_get_error();
