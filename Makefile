@@ -15,8 +15,8 @@ $(OBJDIR)/%.o: $(SRCDIR)/%.c
 ${EXECUTABLE}: ${OBJECTS}
 	${CC} -o $(EXECUTABLE) $^
 
-test: all
-	cd src/tests && $(MAKE) test
+check: all
+	$(MAKE) -C src/tests
 
 clean:
 	rm $(OBJDIR)/*.o $(BUILDDIR)/* || true
