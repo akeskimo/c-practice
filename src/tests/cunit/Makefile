@@ -18,9 +18,11 @@ check: $(EXECUTABLE)
 	./$(EXECUTABLE)
 
 $(EXECUTABLE): $(OBJECTS) $(DOBJECTS)
+	mkdir -p $(BUILDDIR)
 	$(CC) $^ $(LFLAGS) -o $(EXECUTABLE)
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.c
+	mkdir -p $(OBJDIR)
 	$(CC) -c $< $(CFLAGS) -o $@
 
 clean:
