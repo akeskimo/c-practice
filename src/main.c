@@ -6,7 +6,7 @@
 int handle_error(char *s, int err) {
     switch (err)
     {
-    case PARSE_EMPTY:
+    case PARSE_EMPTY_RESULT:
         printf("Converting string '%s' to double failed.\n", s);
         break;
     case PARSE_BUFFER_OVERFLOW:

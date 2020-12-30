@@ -16,8 +16,9 @@ int parse_flag(char *s, double *d)
 
   value = strtod(s, &endptr);
   if (value == 0) {
-    if (*endptr != 0) {
-      return PARSE_EMPTY;
+    if (endptr == s)
+    {
+      return PARSE_EMPTY_RESULT;
     }
   }
   *d = value;

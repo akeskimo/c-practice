@@ -22,18 +22,23 @@ void test_parse_flag(void)
            {"0.1111882", 0.1111882, PARSE_OK},
            {"2.3E-308", 2.3E-308, PARSE_OK},
            // odd cases
-           {"--123", 0, PARSE_EMPTY},
-           {"-", 0, PARSE_EMPTY},
-           {"invalid", 0, PARSE_EMPTY},
-           {"NULL", 0, PARSE_EMPTY},
-           {"\0", 0, PARSE_EMPTY},
-           {"\n", 0, PARSE_EMPTY},
+           {"--123", 0, PARSE_EMPTY_RESULT},
+           {"-", 0, PARSE_EMPTY_RESULT},
+           {"invalid", 0, PARSE_EMPTY_RESULT},
+           {"NULL", 0, PARSE_EMPTY_RESULT},
+           {"\0", 0, PARSE_EMPTY_RESULT},
+           {"\n", 0, PARSE_EMPTY_RESULT},
        };
 
    for (int i = 0; i < sizeof dd / sizeof *dd; i++)
    {
       struct data d = dd[i];
-      CU_ASSERT(d.err == parse_flag(d.input, &d.output));
+      int result = parse_flag(d.input, &d.output);
+      CU_ASSERT(d.err == result);
+      if (d.err != result)
+      {
+         printf("Parsing %d failed, input: %s, value: %f, result: %d\n", i, d.input, d.output, result);
+      }
    }
 }
 

@@ -8,7 +8,7 @@ double square(struct Point p);
 
 typedef enum {
     PARSE_OK = 0,
-    PARSE_EMPTY,
+    PARSE_EMPTY_RESULT,
     PARSE_BUFFER_OVERFLOW,
 } ParserErrorType;
 
