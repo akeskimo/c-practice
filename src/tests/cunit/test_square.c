@@ -68,6 +68,16 @@ int main()
    /* Run all tests using the CUnit Basic interface */
    CU_basic_set_mode(CU_BRM_VERBOSE);
    CU_basic_run_tests();
+
+   /* After running tests - strangely enough - CUnit reports only framework
+   function errors so we need to ask the registry if has any failed tests and
+   exit with non-zero status in such cases. */
+   if (CU_get_number_of_tests_failed() != 0)
+   {
+      CU_cleanup_registry();
+      return 1;
+   }
+
    CU_cleanup_registry();
    return CU_get_error();
 }
