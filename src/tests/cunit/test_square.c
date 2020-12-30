@@ -1,5 +1,5 @@
 #include "CUnit/Basic.h"
-#include "../square.h"
+#include "../../square.h"
 
 /* Test function parse_flag.
 * Tries to convert different values and checks that

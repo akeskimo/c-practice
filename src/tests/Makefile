@@ -1,26 +1,9 @@
-CC=gcc
-CFLAGS=-Wall -ferror-limit=3
-LFLAGS=-lCUnit
-OBJDIR=../../obj
-SRCDIR=.
-BUILDDIR=../../bin
-SOURCES=$(wildcard $(SRCDIR)/*.c)
-_OBJECTS=square.o $(patsubst %.c,%.o,$(notdir $(SOURCES)))
-OBJECTS=$(addprefix $(OBJDIR)/,$(_OBJECTS))
-EXECUTABLE=$(BUILDDIR)/test_square
 
-all: $(EXECUTABLE)
+SUBDIRS=$(dir $(wildcard */))	
 
-test: $(EXECUTABLE)
-	./$(EXECUTABLE)
+first: $(SUBDIRS)
 
-$(EXECUTABLE): $(OBJECTS)
-	$(CC) $^ $(LFLAGS) -o $(EXECUTABLE)
+$(SUBDIRS):
+	$(MAKE) check -C $@
 
-$(OBJDIR)/%.o: $(SRCDIR)/%.c
-	$(CC) -c $< $(CFLAGS) -o $@
-
-clean:
-	rm $(OBJECTS) || true
-
-.PHONY: test all clean
+.PHONY: $(SUBDIRS) first

@@ -4,6 +4,7 @@ Repository containing basic C projects for unit testing, command line parsing, e
 ## Requirements
  - GNU make
  - gcc
+ - cunit
  
  ## Building
  ´make´

@@ -4,10 +4,10 @@ SRCDIR=src
 OBJDIR=obj
 BUILDDIR=bin
 EXECUTABLE=$(BUILDDIR)/square
-SOURCES=$(wildcard ${SRCDIR}/*.c)
-OBJECTS=$(addprefix $(OBJDIR)/,$(patsubst %.c,%.o,$(notdir $(SOURCES))))
+SOURCES=$(notdir $(wildcard $(SRCDIR)/*.c))
+OBJECTS=$(addprefix $(OBJDIR)/,$(patsubst %.c,%.o,$(SOURCES)))
 
-all: $(EXECUTABLE)
+first: $(EXECUTABLE)
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.c
 	$(CC) -c $< $(CFLAGS) -o $@
@@ -15,10 +15,10 @@ $(OBJDIR)/%.o: $(SRCDIR)/%.c
 ${EXECUTABLE}: ${OBJECTS}
 	${CC} -o $(EXECUTABLE) $^
 
-check: all
+check: ${OBJECTS}
 	$(MAKE) -C src/tests
 
 clean:
 	rm $(OBJDIR)/*.o $(BUILDDIR)/* || true
 
-.PHONY: clean test all
+.PHONY: clean check first
