@@ -5,11 +5,12 @@ Repository containing basic C projects for unit testing, command line parsing, e
  - GNU make
  - gcc
  - cunit
+ - check
  
- ## Building
+## Building
  ´make´
  
- ## Running tests
+## Running tests
  ´make test´
 
 # Install commit hook
