@@ -8,12 +8,16 @@ Repository containing basic C projects for unit testing, command line parsing, e
  - check
  
 ## Building
- ´make´
+```sh
+make
+```
  
 ## Running tests
- ´make test´
+```sh
+make test
+```
 
 # Install commit hook
-´´´
+```sh
 ln -s $(pwd)/hooks/pre-commit-hook.sh .git/hooks/pre-commit && chmod +x .git/hooks/pre-commit
-´´´
+```
