@@ -1,5 +1,5 @@
 CC=gcc
-CFLAGS=-Wall -ferror-limit=3
+CFLAGS=-Wall
 SRCDIR=src
 OBJDIR=obj
 BUILDDIR=bin

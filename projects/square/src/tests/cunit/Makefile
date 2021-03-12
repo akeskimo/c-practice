@@ -1,5 +1,5 @@
 CC=gcc
-CFLAGS=-Wall -ferror-limit=3
+CFLAGS=-Wall
 LFLAGS=-lCUnit
 OBJDIR=obj
 SRCDIR=.
