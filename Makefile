@@ -1,5 +1,5 @@
 TARGETS:=first check clean
-PROJECTS=$(wildcard projects/*)
+PROJECTS=$(wildcard src/*)
 
 $(TARGETS): $(PROJECTS)
 
