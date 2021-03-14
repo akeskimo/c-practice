@@ -1,24 +1,36 @@
+CC=gcc
+CFLAGS=-Wall
+
 PROJECTS=\
 	tests
 
-CC=gcc
-CFLAGS=-Wall
 OBJDIR=obj
 SOURCES=\
 	algorithm/sort.c
-OBJECTS=$(patsubst %.c,$(OBJDIR)/%.o,$(notdir $(wildcard $(SOURCES))))
+OBJ=\
+	sort.o
 
-first: $(OBJECTS) $(PROJECTS)
-	make -C $(filter-out %.o,$^)
+# Debug
+DBGDIR=debug
+DBGOBJ=$(addprefix $(DBGDIR)/,$(OBJ))
+DBGFLAGS=-g -O0 -DDEBUG
 
-$(OBJECTS): $(SOURCES)
-	$(CC) $(CFLAGS) -c $^ -o $@
+first: $(OBJ)
 
-check: $(OBJECTS)
+debug: $(DBGOBJ)
+
+$(DBGOBJ): $(SOURCES)
+	mkdir -p $(DBGDIR)
+	$(CC) $(CFLAGS) $(DBGFLAGS) -c -o $@ $<
+
+$(OBJ): $(SOURCES)
+	$(CC) $(CFLAGS) -c -o $@ $<
+
+check: $(OBJ)
 	make -C tests check
 
 clean: $(PROJECTS)
-	rm $(OBJECTS) || true
+	rm $(OBJ) $(DBGDOBJ) || true
 	make -C $^ clean
 
-.PHONY: $(PROJECTS) tests
+.PHONY: $(PROJECTS) tests debug

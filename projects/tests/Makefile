@@ -1,34 +1,52 @@
 CC=gcc
-BUILDDIR=build
+CFLAGS=-Wall
 OBJDIR=obj
 SRCDIR=.
 SOURCES=\
 	test_sort.c \
 	main.c
-OBJECTS=$(patsubst %.c,$(OBJDIR)/%.o,$(notdir $(SOURCES)))
-EXECUTABLE=$(BUILDDIR)/test
+OBJ=$(patsubst %.c,%.o,$(notdir $(SOURCES)))
 
-# Dependencies
+# External
 INCLUDES=-I../algorithm
-DOBJECTS=\
+DOBJ=\
 	../obj/sort.o
 
-first: $(EXECUTABLE)
+# Build
+BUILDDIR=build
+BUILDOBJ=$(addprefix $(BUILDDIR)/,$(OBJ))
+BUILDEXE=$(BUILDDIR)/test
 
-clean:
-	rm $(OBJECTS) $(EXECUTABLE) || true
+# Debug
+DBGDIR=debug
+DBGOBJ=$(addprefix $(DBGDIR)/,$(OBJ))
+DBGEXE=$(DBGDIR)/test
+DBGFLAGS=-g -O0 -DDEBUG
+DBGDOBJ=\
+	../debug/sort.o
 
-check: $(EXECUTABLE)
-	$(EXECUTABLE)
+first: $(BUILDEXE)
 
-$(EXECUTABLE): $(OBJECTS) $(BUILDDIR)
-	$(CC) $(DOBJECTS) $(OBJECTS) -o $(EXECUTABLE)
+$(BUILDEXE): $(OBJ) $(BUILDDIR)
+	$(CC) $(DOBJ) $(OBJ) -o $(BUILDEXE)
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.c
 	mkdir -p $(OBJDIR)
 	$(CC) $(CFLAGS) $(INCLUDES) -c -o $@ $<
 
-$(OBJDIR) $(BUILDDIR):
-	mkdir -p $@
+debug: $(DBGEXE)
 
-.PHONY: first clean
+$(DBGEXE): $(DBGOBJ)
+	$(CC) $(DBGDOBJ) $(DBGOBJ) -o $(DBGEXE)
+
+$(DBGDIR)/%.o: $(SRCDIR)/%.c
+	mkdir -p $(DBGDIR)
+	$(CC) $(CFLAGS) $(DBGFLAGS) -c -o $@ $<
+
+clean:
+	rm $(OBJ) $(BUILDEXE) $(DBGDOBJ) $(DBGEXE) || true
+
+check: $(BUILDEXE)
+	$(BUILDEXE)
+
+.PHONY: first clean debug

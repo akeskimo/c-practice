@@ -1,6 +1,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include "sort.h"
+#include "stdio.h"
 
 
 int* sort_array(int *array, int len) {
