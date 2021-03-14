@@ -20,7 +20,7 @@ BUILDEXE=$(BUILDDIR)/test
 # Debug
 DBGDIR=debug
 DBGOBJ=$(addprefix $(DBGDIR)/,$(OBJ))
-DBGEXE=$(DBGDIR)/test
+DBGEXE=$(DBGDIR)/test_sort
 DBGFLAGS=-g -O0 -DDEBUG
 DBGDOBJ=\
 	../debug/sort.o
@@ -44,7 +44,7 @@ $(DBGDIR)/%.o: $(SRCDIR)/%.c
 	$(CC) $(CFLAGS) $(DBGFLAGS) -c -o $@ $<
 
 clean:
-	rm $(OBJ) $(BUILDEXE) $(DBGDOBJ) $(DBGEXE) || true
+	rm $(OBJ) $(BUILDEXE) $(DBGOBJ) $(DBGEXE) || true
 
 check: $(BUILDEXE)
 	$(BUILDEXE)
