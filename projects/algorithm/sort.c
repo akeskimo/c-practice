@@ -5,26 +5,20 @@
 
 
 int* sort_array(int *array, int len) {
-    int *result = malloc(len * sizeof(int));
-    memset(result, 0, len);
-
-    for (int i = 0; i < len; ++i) {
-        result[i] = array[i];
-    }
-
-    for (int i = 0; i < len; ++i) {
-        int max = result[i];
-        int idx = i;
-        for (int j = i + 1; j < len; ++j) {
-            if (result[j] < max) {
-                max = result[j];
+    int tmp, i, j, idx, max;
+    for (i = 0; i < len; ++i) {
+        max = array[i];
+        idx = i;
+        for (j = i + 1; j < len; ++j) {
+            if (array[j] < max) {
+                max = array[j];
                 idx = j;
             }
         }
         if (idx == i) continue;
-        int tmp = result[i];
-        result[i] = result[idx];
-        result[idx] = tmp;
+        tmp = array[i];
+        array[i] = array[idx];
+        array[idx] = tmp;
     }
-    return result;
+    return array;
 }
