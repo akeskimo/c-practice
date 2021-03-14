@@ -1,6 +1,5 @@
 CC=gcc
 CFLAGS=-Wall
-OBJDIR=obj
 SRCDIR=.
 SOURCES=\
 	test_sort.c \
@@ -14,7 +13,8 @@ DOBJ=\
 
 # Build
 BUILDDIR=build
-BUILDOBJ=$(addprefix $(BUILDDIR)/,$(OBJ))
+OBJDIR=obj
+BUILDOBJ=$(addprefix $(OBJDIR)/,$(OBJ))
 BUILDEXE=$(BUILDDIR)/test
 
 # Debug
@@ -27,8 +27,8 @@ DBGDOBJ=\
 
 first: $(BUILDEXE)
 
-$(BUILDEXE): $(OBJ) $(BUILDDIR)
-	$(CC) $(DOBJ) $(OBJ) -o $(BUILDEXE)
+$(BUILDEXE): $(BUILDOBJ) $(BUILDDIR)
+	$(CC) $(DOBJ) $(BUILDOBJ) -o $(BUILDEXE)
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.c
 	mkdir -p $(OBJDIR)
@@ -44,7 +44,7 @@ $(DBGDIR)/%.o: $(SRCDIR)/%.c
 	$(CC) $(CFLAGS) $(DBGFLAGS) -c -o $@ $<
 
 clean:
-	rm $(OBJ) $(BUILDEXE) $(DBGOBJ) $(DBGEXE) || true
+	rm $(BUILDOBJ) $(BUILDEXE) $(DBGOBJ) $(DBGEXE) || true
 
 check: $(BUILDEXE)
 	$(BUILDEXE)
