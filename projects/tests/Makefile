@@ -35,7 +35,10 @@ PROFDOBJ=\
 
 first: $(BUILDEXE)
 
-$(BUILDEXE): $(BUILDOBJ) $(BUILDDIR)
+check: $(BUILDEXE)
+	$(BUILDEXE)
+
+$(BUILDEXE): $(BUILDOBJ) $(DOBJ)
 	$(CC) $(DOBJ) $(BUILDOBJ) -o $(BUILDEXE)
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.c
@@ -62,11 +65,7 @@ $(PROFDIR)/%.o: $(SRCDIR)/%.c
 	mkdir -p $(PROFDIR)
 	$(CC) $(CFLAGS) -c -o $@ $<
 
-
 clean:
 	rm $(BUILDOBJ) $(BUILDEXE) $(DBGOBJ) $(DBGEXE) $(PROFEXE) $(PROFOBJ) || true
-
-check: $(BUILDEXE)
-	$(BUILDEXE)
 
 .PHONY: first clean debug
