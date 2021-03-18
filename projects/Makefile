@@ -4,18 +4,19 @@ CFLAGS=-Wall
 PROJECTS=\
 	tests
 
-OBJDIR=obj
 SOURCES=\
 	algorithm/sort.c
+OBJDIR=obj
 OBJ=\
 	sort.o
+BUILDOBJ=$(addprefix $(OBJDIR)/,$(OBJ))
 
 # Debug
 DBGDIR=debug
 DBGOBJ=$(addprefix $(DBGDIR)/,$(OBJ))
 DBGFLAGS=-g -O0 -DDEBUG
 
-first: $(OBJ)
+first: $(BUILDOBJ)
 
 debug: $(DBGOBJ)
 
@@ -23,14 +24,14 @@ $(DBGOBJ): $(SOURCES)
 	mkdir -p $(DBGDIR)
 	$(CC) $(CFLAGS) $(DBGFLAGS) -c -o $@ $<
 
-$(OBJ): $(SOURCES)
+$(OBJDIR)/%.o: $(SOURCES)
 	$(CC) $(CFLAGS) -c -o $@ $<
 
-check: $(OBJ)
+check: $(BUILDOBJ)
 	make -C tests check
 
 clean: $(PROJECTS)
-	rm $(OBJ) $(DBGDOBJ) || true
+	rm $(BUILDOBJ) $(DBGOBJ) || true
 	make -C $^ clean
 
 .PHONY: $(PROJECTS) tests debug

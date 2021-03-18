@@ -1,47 +1,106 @@
+#include <stdlib.h>
+#include <string.h>
 #include "limits.h"
-#include "stdio.h"
-#include "stdlib.h"
-
 #include "../algorithm/sort.h"
 #include "../include/ctest/ctest.h"
 
-void assert_arrays(int *exp, int expl, int *res, int resl) {
-    ASSERT_EQUAL(expl, resl);
-    for (int i = 0; i < expl; ++i) {
-        ASSERT_EQUAL(exp[i], res[i]);
+
+#define MAX_ARRAY_SIZE 100000
+
+
+typedef struct TestData {
+    unsigned int size;
+    int input[MAX_ARRAY_SIZE];
+    int expected[MAX_ARRAY_SIZE];
+} data;
+
+
+data TEST_DATA_SIMPLE = {
+    .size=2,
+    .input={2,1},
+    .expected={1,2}
+};
+
+
+data TEST_DATA_SEVEN = {
+    .size=7,
+    .input={99,4,2,1,55,0,1},
+    .expected={0,1,1,2,4,55,99}
+};
+
+
+data* newTestDataWorstCase(unsigned int size) {
+    /*
+    * Create new test data structure of size with
+    * worst case.
+    */
+    if (size > MAX_ARRAY_SIZE) {
+        return NULL;
     }
+    data init;
+    data *d = &init;
+    for (int i = 0; i < size; ++i) {
+        d->expected[i] = i;
+        d->input[i] = size-1-i;
+    }
+    d->size = size;
+    return d;
+}
+
+
+void assert_arrays(int *expected, int *actual, unsigned int length) {
+    for (int i = 0; i < length; ++i) {
+        ASSERT_EQUAL(expected[i], actual[i]);
+    }
+}
+
+
+data* shallow_copy(data *obj) {
+    data *d = malloc(sizeof(data));
+    memcpy(d, obj, sizeof(data));
+    return d;
 }
 
 
 CTEST(suite1, test1) {
-    int input[] = {2,1};
-    int expected[] = {1,2};
-    int *result = sort_array(input, 2);
-    assert_arrays(expected, 2, result, 2);
+    data *d = shallow_copy(&TEST_DATA_SIMPLE);
+    sort_array(d->input, d->size);
+    assert_arrays(d->expected, d->input, d->size);
 }
+
 
 CTEST(suite1, test2) {
-    int input[] = {99,4,2,1,55,0,1};
-    int expected[] = {0,1,1,2,4,55,99};
-    int *result = sort_array(input, 7);
-    assert_arrays(expected, 7, result, 7);
+    data *d = shallow_copy(&TEST_DATA_SEVEN);
+    sort_array(d->input, d->size);
+    assert_arrays(d->expected, d->input, d->size);
 }
+
 
 CTEST(suite1, test3) {
-    int size = 100000;
-    int input[size];
-    for (int i = size; i >= 0; --i) {
-        input[i] = i;
-    }
-    printf("sorting array\n");
-    int *result = sort_array(input, size);
-    printf("sorting done\n");
-    int expected[size];
-    for (int i = 0; i < size; ++i) {
-        expected[i] = i;
-    }
-    printf("asserting...\n");
-    assert_arrays(expected, size, result, size);
-    printf("asserted.\n");
+    data *tmp = newTestDataWorstCase(1000);
+    data *d = shallow_copy(tmp);
+    sort_array(d->input, d->size);
+    assert_arrays(d->expected, d->input, d->size);
 }
 
+
+CTEST(suite2, test1) {
+    data *d = shallow_copy(&TEST_DATA_SIMPLE);
+    bsort(d->input, d->size);
+    assert_arrays(d->expected, d->input, d->size);
+}
+
+
+CTEST(suite2, test2) {
+    data *d = shallow_copy(&TEST_DATA_SEVEN);
+    bsort(d->input, d->size);
+    assert_arrays(d->expected, d->input, d->size);
+}
+
+
+CTEST(suite2, test3) {
+    data *tmp = newTestDataWorstCase(1000);
+    data *d = shallow_copy(tmp);
+    bsort(d->input, d->size);
+    assert_arrays(d->expected, d->input, d->size);
+}

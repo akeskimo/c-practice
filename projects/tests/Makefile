@@ -7,7 +7,7 @@ SOURCES=\
 OBJ=$(patsubst %.c,%.o,$(notdir $(SOURCES)))
 
 # External
-INCLUDES=-I../algorithm
+INCLUDES=-I../algorithm -I.
 DOBJ=\
 	../obj/sort.o
 
