@@ -117,20 +117,20 @@ CTEST(suite2, test3) {
 
 CTEST(suite3, test1) {
     data *d = shallow_copy(&TEST_DATA_SIMPLE);
-    quicksort(d->input, d->size);
+    quicksort(d->input, 0, d->size-1);
     assert_arrays(d->expected, d->input, d->size);
 }
 
 CTEST(suite3, test2) {
     data *d = shallow_copy(&TEST_DATA_NINE);
-    quicksort(d->input, d->size);
+    quicksort(d->input, 0, d->size-1);
     assert_arrays(d->expected, d->input, d->size);
 }
 
 CTEST(suite3, test3) {
     data *tmp = newTestDataWorstCase(SIZE_TEST_DATA_ARRAY_LARGE);
     data *d = shallow_copy(tmp);
-    quicksort(d->input, d->size);
+    quicksort(d->input, 0, d->size-1);
     assert_arrays(d->expected, d->input, d->size);
 }
 

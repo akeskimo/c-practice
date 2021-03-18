@@ -47,35 +47,32 @@ void print_array(int *array, int start, int end) {
 }
 
 
-void __quicksort(int *array, int start, int end) {
-    if (end <= start) {
-        return;
-    }
-    int i = start;
-    int ip = end;  // always choose the last element as pivot
-    int p = array[ip];
-    int tmp;
-    while (i < ip) {
-        if (array[i] > p) {
-            tmp = array[ip];
-            array[ip] = array[i];
-            array[i] = array[ip-1];
-            array[ip-1] = tmp;
-            ip = ip -1;
-        } else {
-            ++i;
-        }
-    }
-    __quicksort(array, start, ip-1);
-    __quicksort(array, ip+1, end);
+void __swap(int *array, int i, int j) {
+    int tmp = array[i];
+    array[i] = array[j];
+    array[j] = tmp;
 }
 
-void quicksort(int *array, int len) {
+
+void quicksort(int *array, int start, int end) {
     /**
      * Quick sort algorithm that resolves the
      * sort order on divide and conquer principle.
      */
-    __quicksort(array, 0, len-1);
+    if (end <= start) {
+        return;
+    }
+    int p = array[end];
+    int j = start;
+    for (int i = start; i < end; ++i) {
+        if (array[i] < p) {
+            __swap(array, i, j);
+            j++;
+        }
+    }
+    __swap(array, j, end);
+    quicksort(array, start, j-1);
+    quicksort(array, j+1, end);
 }
 
 
