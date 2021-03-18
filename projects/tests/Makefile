@@ -25,6 +25,14 @@ DBGFLAGS=-g -O0 -DDEBUG
 DBGDOBJ=\
 	../debug/sort.o
 
+# Profile
+PROFDIR=prof
+PROFOBJ=$(addprefix $(PROFDIR)/,$(OBJ))
+PROFEXE=$(PROFDIR)/test_sort
+PROFLDFLAGS=-pg -g
+PROFDOBJ=\
+	../prof/sort.o
+
 first: $(BUILDEXE)
 
 $(BUILDEXE): $(BUILDOBJ) $(BUILDDIR)
@@ -43,8 +51,20 @@ $(DBGDIR)/%.o: $(SRCDIR)/%.c
 	mkdir -p $(DBGDIR)
 	$(CC) $(CFLAGS) $(DBGFLAGS) -c -o $@ $<
 
+profile: $(PROFEXE)
+	$(PROFEXE)
+	gprof $(PROFEXE) gmon.out
+
+$(PROFEXE): $(PROFOBJ)
+	$(CC) $(PROFLDFLAGS) $(PROFDOBJ) $(PROFOBJ) -o $(PROFEXE)
+
+$(PROFDIR)/%.o: $(SRCDIR)/%.c
+	mkdir -p $(PROFDIR)
+	$(CC) $(CFLAGS) -c -o $@ $<
+
+
 clean:
-	rm $(BUILDOBJ) $(BUILDEXE) $(DBGOBJ) $(DBGEXE) || true
+	rm $(BUILDOBJ) $(BUILDEXE) $(DBGOBJ) $(DBGEXE) $(PROFEXE) $(PROFOBJ) || true
 
 check: $(BUILDEXE)
 	$(BUILDEXE)

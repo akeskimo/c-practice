@@ -29,6 +29,16 @@ data TEST_DATA_SEVEN = {
 };
 
 
+data TEST_DATA_NINE = {
+    .size=9,
+    .input={3,7,8,5,2,1,9,5,4},
+    .expected={1,2,3,4,5,5,7,8,9}
+};
+
+
+#define SIZE_TEST_DATA_ARRAY_LARGE 10000
+
+
 data* newTestDataWorstCase(unsigned int size) {
     /*
     * Create new test data structure of size with
@@ -70,14 +80,14 @@ CTEST(suite1, test1) {
 
 
 CTEST(suite1, test2) {
-    data *d = shallow_copy(&TEST_DATA_SEVEN);
+    data *d = shallow_copy(&TEST_DATA_NINE);
     sort_array(d->input, d->size);
     assert_arrays(d->expected, d->input, d->size);
 }
 
 
 CTEST(suite1, test3) {
-    data *tmp = newTestDataWorstCase(1000);
+    data *tmp = newTestDataWorstCase(SIZE_TEST_DATA_ARRAY_LARGE);
     data *d = shallow_copy(tmp);
     sort_array(d->input, d->size);
     assert_arrays(d->expected, d->input, d->size);
@@ -92,15 +102,54 @@ CTEST(suite2, test1) {
 
 
 CTEST(suite2, test2) {
-    data *d = shallow_copy(&TEST_DATA_SEVEN);
+    data *d = shallow_copy(&TEST_DATA_NINE);
     bsort(d->input, d->size);
     assert_arrays(d->expected, d->input, d->size);
 }
 
 
 CTEST(suite2, test3) {
-    data *tmp = newTestDataWorstCase(1000);
+    data *tmp = newTestDataWorstCase(SIZE_TEST_DATA_ARRAY_LARGE);
     data *d = shallow_copy(tmp);
     bsort(d->input, d->size);
+    assert_arrays(d->expected, d->input, d->size);
+}
+
+CTEST(suite3, test1) {
+    data *d = shallow_copy(&TEST_DATA_SIMPLE);
+    quicksort(d->input, d->size);
+    assert_arrays(d->expected, d->input, d->size);
+}
+
+CTEST(suite3, test2) {
+    data *d = shallow_copy(&TEST_DATA_NINE);
+    quicksort(d->input, d->size);
+    assert_arrays(d->expected, d->input, d->size);
+}
+
+CTEST(suite3, test3) {
+    data *tmp = newTestDataWorstCase(SIZE_TEST_DATA_ARRAY_LARGE);
+    data *d = shallow_copy(tmp);
+    quicksort(d->input, d->size);
+    assert_arrays(d->expected, d->input, d->size);
+}
+
+
+CTEST(suite4, test1) {
+    data *d = shallow_copy(&TEST_DATA_SIMPLE);
+    stdlib_qsort(d->input, d->size);
+    assert_arrays(d->expected, d->input, d->size);
+}
+
+CTEST(suite4, test2) {
+    data *d = shallow_copy(&TEST_DATA_NINE);
+    stdlib_qsort(d->input, d->size);
+    assert_arrays(d->expected, d->input, d->size);
+}
+
+CTEST(suite4, test3) {
+    data *tmp = newTestDataWorstCase(SIZE_TEST_DATA_ARRAY_LARGE);
+    data *d = shallow_copy(tmp);
+    stdlib_qsort(d->input, d->size);
     assert_arrays(d->expected, d->input, d->size);
 }

@@ -1,5 +1,7 @@
 #include "sort.h"
 #include "stdio.h"
+#include <stdlib.h>
+#include <unistd.h>
 
 
 void sort_array(int *array, int len) {
@@ -36,4 +38,52 @@ void bsort(int *array, int len) {
             j--;
         }
     }
+}
+
+void print_array(int *array, int start, int end) {
+    for (int j = start; j <= end; ++j) {
+        printf("%d ", array[j]);
+    }
+}
+
+
+void __quicksort(int *array, int start, int end) {
+    if (end <= start) {
+        return;
+    }
+    int i = start;
+    int ip = end;  // always choose the last element as pivot
+    int p = array[ip];
+    int tmp;
+    while (i < ip) {
+        if (array[i] > p) {
+            tmp = array[ip];
+            array[ip] = array[i];
+            array[i] = array[ip-1];
+            array[ip-1] = tmp;
+            ip = ip -1;
+        } else {
+            ++i;
+        }
+    }
+    __quicksort(array, start, ip-1);
+    __quicksort(array, ip+1, end);
+}
+
+void quicksort(int *array, int len) {
+    /**
+     * Quick sort algorithm that resolves the
+     * sort order on divide and conquer principle.
+     */
+    __quicksort(array, 0, len-1);
+}
+
+
+int comparator(const void *a, const void *b) {
+    return (*(int*)a - *(int*)b);
+}
+
+
+void stdlib_qsort(int *array, int len) {
+    qsort(array, len, sizeof(int), comparator);
 }

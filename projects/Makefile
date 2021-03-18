@@ -16,7 +16,18 @@ DBGDIR=debug
 DBGOBJ=$(addprefix $(DBGDIR)/,$(OBJ))
 DBGFLAGS=-g -O0 -DDEBUG
 
+# Profile
+PROFDIR=prof
+PROFOBJ=$(addprefix $(PROFDIR)/,$(OBJ))
+PROFFLAGS=-pg
+
 first: $(BUILDOBJ)
+
+profile: $(PROFOBJ)
+
+$(PROFOBJ): $(SOURCES)
+	mkdir -p $(PROFDIR)
+	$(CC) $(CFLAGS) $(PROFFLAGS) -c -o $@ $<
 
 debug: $(DBGOBJ)
 
@@ -27,11 +38,14 @@ $(DBGOBJ): $(SOURCES)
 $(OBJDIR)/%.o: $(SOURCES)
 	$(CC) $(CFLAGS) -c -o $@ $<
 
+tests: $(BUILDOBJ)
+	make -C tests
+
 check: $(BUILDOBJ)
 	make -C tests check
 
 clean: $(PROJECTS)
-	rm $(BUILDOBJ) $(DBGOBJ) || true
+	rm $(BUILDOBJ) $(DBGOBJ) $(PROFOBJ) || true
 	make -C $^ clean
 
 .PHONY: $(PROJECTS) tests debug
