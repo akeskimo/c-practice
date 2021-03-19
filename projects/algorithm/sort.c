@@ -4,8 +4,11 @@
 #include <unistd.h>
 
 
+#define SWAP(array,i,j)({int tmp = array[i]; array[i] = array[j]; array[j] = tmp;})
+
+
 void sort_array(int *array, int len) {
-    int tmp, i, j, idx, max;
+    int i, j, idx, max;
     for (i = 0; i < len; ++i) {
         max = array[i];
         idx = i;
@@ -16,9 +19,7 @@ void sort_array(int *array, int len) {
             }
         }
         if (idx == i) continue;
-        tmp = array[i];
-        array[i] = array[idx];
-        array[idx] = tmp;
+        SWAP(array, i, idx);
     }
 }
 
@@ -28,29 +29,21 @@ void bsort(int *array, int len) {
     * Bubble sort algorithm that swaps
     * the next value with previous value.
     */
-    int i, j, tmp;
+    int i, j;
     for (i = 0; i < len - 1; ++i) {
         j = i;
         while (j >= 0 && array[j] > array[j+1]) {
-            tmp = array[j+1];
-            array[j+1] = array[j];
-            array[j] = tmp;
+            SWAP(array, j, j+1);
             j--;
         }
     }
 }
 
+
 void print_array(int *array, int start, int end) {
     for (int j = start; j <= end; ++j) {
         printf("%d ", array[j]);
     }
-}
-
-
-void __swap(int *array, int i, int j) {
-    int tmp = array[i];
-    array[i] = array[j];
-    array[j] = tmp;
 }
 
 
@@ -66,13 +59,13 @@ void quicksort(int *array, int start, int end) {
     int j = start;
     for (int i = start; i < end; ++i) {
         if (array[i] < p) {
-            __swap(array, i, j);
+            SWAP(array, i, j);
             j++;
         }
     }
-    __swap(array, j, end);
+    SWAP(array, j, end);
     quicksort(array, start, j-1);
-    quicksort(array, j+1, end);
+    return quicksort(array, j+1, end);
 }
 
 
