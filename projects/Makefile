@@ -28,6 +28,7 @@ profile: $(PROFOBJ)
 $(PROFOBJ): $(SOURCES)
 	mkdir -p $(PROFDIR)
 	$(CC) $(CFLAGS) $(PROFFLAGS) -c -o $@ $<
+	make -C tests profile
 
 debug: $(DBGOBJ)
 	make -C tests debug
@@ -38,7 +39,6 @@ $(DBGOBJ): $(SOURCES)
 
 $(OBJDIR)/%.o: $(SOURCES)
 	$(CC) $(CFLAGS) -c -o $@ $<
-
 
 benchmark: $(BUILDOBJ)
 	make -C tests benchmark
@@ -53,4 +53,4 @@ clean: $(PROJECTS)
 	rm $(BUILDOBJ) $(DBGOBJ) $(PROFOBJ) || true
 	make -C $^ clean
 
-.PHONY: $(PROJECTS) tests debug
+.PHONY: $(PROJECTS) tests $(PROFOBJ)

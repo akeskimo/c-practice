@@ -1,5 +1,6 @@
-TARGETS:=first check clean
-PROJECTS=$(wildcard src/*)
+TARGETS:=first check clean profile debug benchmark
+PROJECTS=\
+	projects \
 
 $(TARGETS): $(PROJECTS)
 

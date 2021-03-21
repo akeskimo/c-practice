@@ -79,4 +79,4 @@ $(BMEXE): $(DOBJ) $(BMSRC)
 clean:
 	rm $(BUILDOBJ) $(BUILDEXE) $(DBGOBJ) $(DBGEXE) $(PROFEXE) $(PROFOBJ) || true
 
-.PHONY: first clean debug
+.PHONY: first clean debug profile debug
