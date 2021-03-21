@@ -1,19 +1,13 @@
 #include <stdlib.h>
 #include <string.h>
-#include "limits.h"
+#include <limits.h>
+
+#include "structs.h"
 #include "../algorithm/sort.h"
 #include "../include/ctest/ctest.h"
 
 
-#define MAX_ARRAY_SIZE 100000
 #define SIZE_TEST_DATA_ARRAY_LARGE 10000
-
-
-typedef struct TestData {
-    unsigned int size;
-    int input[MAX_ARRAY_SIZE];
-    int expected[MAX_ARRAY_SIZE];
-} td;
 
 
 td TEST_DATA_SIMPLE = {
@@ -37,35 +31,10 @@ td TEST_DATA_NINE = {
 };
 
 
-td* newTestDataWorstCase(unsigned int size) {
-    /*
-    * Create new test data structure of size with
-    * worst case.
-    */
-    if (size > MAX_ARRAY_SIZE) {
-        return NULL;
-    }
-    td *d = malloc(sizeof(td));
-    for (int i = 0; i < size; ++i) {
-        d->expected[i] = i;
-        d->input[i] = size-1-i;
-    }
-    d->size = size;
-    return d;
-}
-
-
 void assert_arrays(int *expected, int *actual, unsigned int length) {
     for (int i = 0; i < length; ++i) {
         ASSERT_EQUAL(expected[i], actual[i]);
     }
-}
-
-
-td* deep_copy(td *obj) {
-    td *d = malloc(sizeof(td));
-    memcpy(d, obj, sizeof(td));
-    return d;
 }
 
 
@@ -127,19 +96,19 @@ CTEST2(worstcase, bubblesort3) {
 
 
 CTEST2(worstcase, quicksort1) {
-    quicksort(data->two->input, 0, data->two->size-1);
+    quicksort(data->two->input, data->two->size);
     assert_arrays(data->two->expected, data->two->input, data->two->size);
 }
 
 
 CTEST2(worstcase, quicksort2) {
-    quicksort(data->nine->input, 0, data->nine->size-1);
+    quicksort(data->nine->input, data->nine->size);
     assert_arrays(data->nine->expected, data->nine->input, data->nine->size);
 }
 
 
 CTEST2(worstcase, quicksort3) {
-    quicksort(data->large->input, 0, data->large->size-1);
+    quicksort(data->large->input, data->large->size);
     assert_arrays(data->large->expected, data->large->input, data->large->size);
 }
 

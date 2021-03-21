@@ -15,9 +15,6 @@ void __printarr(int *array, int start, int end) {
 }
 
 
-#define SWAP(array,i,j)({int tmp = array[i]; array[i] = array[j]; array[j] = tmp;})
-
-
 void maxsort(int *array, int len) {
     int i, j, idx, max;
     for (i = 0; i < len; ++i) {
@@ -51,18 +48,7 @@ void bubblesort(int *array, int len) {
 }
 
 
-void print_array(int *array, int start, int end) {
-    for (int j = start; j <= end; ++j) {
-        printf("%d ", array[j]);
-    }
-}
-
-
-void quicksort(int *array, int start, int end) {
-    /**
-     * Quick sort algorithm that resolves the
-     * sort order on divide and conquer principle.
-     */
+void __quicksort(int *array, int start, int end) {
     if (end <= start) {
         return;
     }
@@ -75,8 +61,17 @@ void quicksort(int *array, int start, int end) {
         }
     }
     SWAP(array, j, end);
-    quicksort(array, start, j-1);
-    return quicksort(array, j+1, end);
+    __quicksort(array, start, j-1);
+    return __quicksort(array, j+1, end);
+}
+
+
+void quicksort(int *array, int len) {
+    /**
+     * Quick sort algorithm that resolves the
+     * sort order on divide and conquer principle.
+     */
+    __quicksort(array, 0, len-1);
 }
 
 

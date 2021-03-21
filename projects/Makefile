@@ -39,6 +39,10 @@ $(DBGOBJ): $(SOURCES)
 $(OBJDIR)/%.o: $(SOURCES)
 	$(CC) $(CFLAGS) -c -o $@ $<
 
+
+benchmark: $(BUILDOBJ)
+	make -C tests benchmark
+
 tests: $(BUILDOBJ)
 	make -C tests
 

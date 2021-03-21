@@ -33,6 +33,11 @@ PROFLDFLAGS=-pg -g
 PROFDOBJ=\
 	../prof/sort.o
 
+# Benchmark
+BMSRC=\
+	benchmark.c
+BMEXE=$(BUILDDIR)/benchmark
+
 first: $(BUILDEXE)
 
 check: $(BUILDEXE)
@@ -64,6 +69,12 @@ $(PROFEXE): $(PROFOBJ)
 $(PROFDIR)/%.o: $(SRCDIR)/%.c
 	mkdir -p $(PROFDIR)
 	$(CC) $(CFLAGS) -c -o $@ $<
+
+benchmark: $(BMEXE)
+	$(BUILDDIR)/benchmark
+
+$(BMEXE): $(DOBJ) $(BMSRC)
+	$(CC) $(CFLAGS) $(DOBJ) $(BMSRC) -o $(BMEXE)
 
 clean:
 	rm $(BUILDOBJ) $(BUILDEXE) $(DBGOBJ) $(DBGEXE) $(PROFEXE) $(PROFOBJ) || true
