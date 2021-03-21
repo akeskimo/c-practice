@@ -30,6 +30,7 @@ $(PROFOBJ): $(SOURCES)
 	$(CC) $(CFLAGS) $(PROFFLAGS) -c -o $@ $<
 
 debug: $(DBGOBJ)
+	make -C tests debug
 
 $(DBGOBJ): $(SOURCES)
 	mkdir -p $(DBGDIR)

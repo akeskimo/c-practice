@@ -1,13 +1,24 @@
-#include "sort.h"
-#include "stdio.h"
 #include <stdlib.h>
 #include <unistd.h>
+
+#include "sort.h"
+#include "stdio.h"
 
 
 #define SWAP(array,i,j)({int tmp = array[i]; array[i] = array[j]; array[j] = tmp;})
 
 
-void sort_array(int *array, int len) {
+void __printarr(int *array, int start, int end) {
+    for (int j = start; j <= end; ++j) {
+        printf("%d ", array[j]);
+    }
+}
+
+
+#define SWAP(array,i,j)({int tmp = array[i]; array[i] = array[j]; array[j] = tmp;})
+
+
+void maxsort(int *array, int len) {
     int i, j, idx, max;
     for (i = 0; i < len; ++i) {
         max = array[i];
@@ -24,10 +35,10 @@ void sort_array(int *array, int len) {
 }
 
 
-void bsort(int *array, int len) {
+void bubblesort(int *array, int len) {
     /**
-    * Bubble sort algorithm that swaps
-    * the next value with previous value.
+    * Bubble sort algorithm that swaps the next value
+    * with previous value if its larger.
     */
     int i, j;
     for (i = 0; i < len - 1; ++i) {
@@ -69,11 +80,15 @@ void quicksort(int *array, int start, int end) {
 }
 
 
-int comparator(const void *a, const void *b) {
+int __comparator(const void *a, const void *b) {
     return (*(int*)a - *(int*)b);
 }
 
 
-void stdlib_qsort(int *array, int len) {
-    qsort(array, len, sizeof(int), comparator);
+void stdqsort(int *array, int len) {
+    /**
+     * Standard library quick sort that can be used for
+     * benchmarking against user-defined sort algorithms.
+     */
+    qsort(array, len, sizeof(int), __comparator);
 }
