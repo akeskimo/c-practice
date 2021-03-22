@@ -16,6 +16,15 @@ typedef struct Benchmark {
 } Benchmark;
 
 
+void run(Benchmark bm) {
+    float start_time = (float)clock()/CLOCKS_PER_SEC;
+    (*bm.test)(bm.data->input, bm.data->size);
+    float elapsed = (float)clock()/CLOCKS_PER_SEC - start_time;
+    printf("%s:\n%-10s%1.4f seconds\n\n", bm.name, "user", elapsed);
+    free(bm.data);
+}
+
+
 void benchmark() {
     /** Run tests against multiple reference data
      * sets and compare the results.
@@ -47,12 +56,7 @@ void benchmark() {
     };
 
     for (int i = 0; i < sizeof(benchmarks)/sizeof(Benchmark); ++i) {
-        Benchmark bm = benchmarks[i];
-        float start_time = (float)clock()/CLOCKS_PER_SEC;
-        (*bm.test)(bm.data->input, bm.data->size);
-        float elapsed = (float)clock()/CLOCKS_PER_SEC - start_time;
-        printf("%s:\n%-10s%1.4f seconds\n\n", bm.name, "user", elapsed);
-        free(bm.data);
+        run((Benchmark)benchmarks[i]);
     }
 };
 
