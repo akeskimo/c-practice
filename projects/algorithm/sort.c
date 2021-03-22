@@ -5,6 +5,10 @@
 #include "stdio.h"
 
 
+/** TODO: Looking up array indeces is slow and the overall speed
+ * would be massively improved by using pointers with bit-wise
+ * operations.
+ */
 #define SWAP(array,i,j)({int tmp = array[i]; array[i] = array[j]; array[j] = tmp;})
 
 

@@ -30,7 +30,7 @@ $(PROFOBJ): $(SOURCES)
 	$(CC) $(CFLAGS) $(PROFFLAGS) -c -o $@ $<
 	make -C tests profile
 
-debug: $(DBGOBJ)
+debug: $(DBGOBJ) $(BUILDOBJ)
 	make -C tests debug
 
 $(DBGOBJ): $(SOURCES)

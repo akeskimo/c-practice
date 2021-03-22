@@ -48,13 +48,28 @@ CTEST_DATA(worstcase) {
 CTEST_SETUP(worstcase) {
     data->two = deep_copy(&TEST_DATA_SIMPLE);
     data->nine = deep_copy(&TEST_DATA_NINE);
-    data->large = newTestDataWorstCase(SIZE_TEST_DATA_ARRAY_LARGE);
+    data->large = newTestData(SIZE_TEST_DATA_ARRAY_LARGE, __fn_arr_gen_worst);
 }
 
 
 CTEST_TEARDOWN(worstcase) {
     free(data->two);
     free(data->nine);
+    free(data->large);
+}
+
+
+CTEST_DATA(random) {
+    td *large;
+};
+
+
+CTEST_SETUP(random) {
+    data->large = newTestData(SIZE_TEST_DATA_ARRAY_LARGE, __fn_arr_gen_rand);
+};
+
+
+CTEST_TEARDOWN(random) {
     free(data->large);
 }
 
@@ -77,6 +92,12 @@ CTEST2(worstcase, maxsort3) {
 }
 
 
+CTEST2(random, maxsort4) {
+    maxsort(data->large->input, data->large->size);
+    assert_arrays(data->large->expected, data->large->input, data->large->size);
+}
+
+
 CTEST2(worstcase, bubblesort1) {
     bubblesort(data->two->input, data->two->size);
     assert_arrays(data->two->expected, data->two->input, data->two->size);
@@ -90,6 +111,11 @@ CTEST2(worstcase, bubblesort2) {
 
 
 CTEST2(worstcase, bubblesort3) {
+    bubblesort(data->large->input, data->large->size);
+    assert_arrays(data->large->expected, data->large->input, data->large->size);
+}
+
+CTEST2(random, bubblesort4) {
     bubblesort(data->large->input, data->large->size);
     assert_arrays(data->large->expected, data->large->input, data->large->size);
 }
@@ -113,6 +139,12 @@ CTEST2(worstcase, quicksort3) {
 }
 
 
+CTEST2(random, quicksort4) {
+    quicksort(data->large->input, data->large->size);
+    assert_arrays(data->large->expected, data->large->input, data->large->size);
+}
+
+
 CTEST2(worstcase, stdlibqsort1) {
     stdqsort(data->two->input, data->two->size);
     assert_arrays(data->two->expected, data->two->input, data->two->size);
@@ -126,6 +158,11 @@ CTEST2(worstcase, stdlibqsort2) {
 
 
 CTEST2(worstcase, stdlibqsort3) {
+    stdqsort(data->large->input, data->large->size);
+    assert_arrays(data->large->expected, data->large->input, data->large->size);
+}
+
+CTEST2(random, stdlibqsort4) {
     stdqsort(data->large->input, data->large->size);
     assert_arrays(data->large->expected, data->large->input, data->large->size);
 }

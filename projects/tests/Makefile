@@ -1,12 +1,14 @@
 CC=gcc
 CFLAGS=-Wall
 SRCDIR=.
+HEADERS=\
+	structs.h
 SOURCES=\
 	test_sort.c \
 	main.c
 OBJ=$(patsubst %.c,%.o,$(notdir $(SOURCES)))
 
-# External
+# Tested sources/libraries
 INCLUDES=-I../algorithm -I.
 DOBJ=\
 	../obj/sort.o
@@ -52,7 +54,7 @@ $(OBJDIR)/%.o: $(SRCDIR)/%.c
 
 debug: $(DBGEXE)
 
-$(DBGEXE): $(DBGOBJ)
+$(DBGEXE): $(DBGOBJ) $(DOBJ) $(HEADERS)
 	$(CC) $(DBGDOBJ) $(DBGOBJ) -o $(DBGEXE)
 
 $(DBGDIR)/%.o: $(SRCDIR)/%.c
@@ -79,4 +81,4 @@ $(BMEXE): $(DOBJ) $(BMSRC)
 clean:
 	rm $(BUILDOBJ) $(BUILDEXE) $(DBGOBJ) $(DBGEXE) $(PROFEXE) $(PROFOBJ) || true
 
-.PHONY: first clean debug profile debug
+.PHONY: first clean debug profile
