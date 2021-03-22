@@ -26,22 +26,22 @@ void benchmark() {
     Benchmark benchmarks[] = {
         {
             .name = "maxsort",
-            .data = newTestData(data_size),
+            .data = newTestData(data_size, __fn_arr_gen_worst),
             .test = maxsort,
         },
         {
             .name = "quicksort",
-            .data = newTestData(data_size),
+            .data = newTestData(data_size, __fn_arr_gen_worst),
             .test = quicksort,
         },
         {
             .name = "bubblesort",
-            .data = newTestData(data_size),
+            .data = newTestData(data_size, __fn_arr_gen_worst),
             .test = bubblesort,
         },
         {
             .name = "qsort (std)",
-            .data = newTestData(data_size),
+            .data = newTestData(data_size, __fn_arr_gen_worst),
             .test = stdqsort,
         },
     };
